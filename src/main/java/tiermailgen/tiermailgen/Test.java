@@ -109,6 +109,8 @@ public class Test {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		// add calculated exipry date and regitem in mailout table;
+		
 		 TierMailoutsDaoImpl mailoutsDao = new TierMailoutsDaoImpl();
 		 RegistrationItemsDaoImpl regItemsDao= new RegistrationItemsDaoImpl();
 		 AppTransactionsDaoImpl appTransactionsDao = new AppTransactionsDaoImpl();

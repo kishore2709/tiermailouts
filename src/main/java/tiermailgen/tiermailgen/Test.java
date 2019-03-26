@@ -118,24 +118,33 @@ public class Test {
 		 LedgerDaoImpl ledgerDao = new LedgerDaoImpl();
 		 TierMailouts mailout = null;
 		 ApptransRegRelDaoImpl apptransRegRelDao = new ApptransRegRelDaoImpl();
+		 
 		 List<TierMailouts> mailouts = mailoutsDao.findByStatus('N');
-		 mailouts=mailouts.subList(0, 3);// For Testing
+		 mailouts=mailouts.subList(0, 10);// For Testing
 		 System.out.println(">>>>>>> TierMailouts Size "+mailouts.size());
 		 Map uniqueAppCount = getAppCounts(mailouts);
+		// uniqueAppCount.
 		 Iterator<String> it =  uniqueAppCount.keySet().iterator();
 		 while(it.hasNext()){
-			 String appno=it.next();
-			 Integer appcount=(Integer) uniqueAppCount.get(appno);
-			 AppTransactions app =createAppTxns(1234);//pass companyUid
-			 AppTransAssociation ata = createAppTransAssociation(app,1234);// pass appNo
+			 List<TierMailouts> appmailouts =new  ArrayList<TierMailouts>(); 
+			 String appno= it.next();
+			 for(TierMailouts tms:mailouts){
+				 if(tms.getAppno().equals(it));
+				 appmailouts.add(tms);
+				 }
+			 Integer regcount=(Integer) uniqueAppCount.get(appno);
+			 AppTransactions app =createAppTxns(appmailouts.get(0).getCompanyUid);//pass companyUid
+			 AppTransAssociation ata = createAppTransAssociation(app,new Integer(appno));// pass appNo
 			 List<ApptransRegRel> atrlist=new  ArrayList<ApptransRegRel>();
-			 for(int i=0;i<=appcount;i++){
-				 ApptransRegRel atr =  createApptransRegRel(app,regItemsDao.findByTrackingNo(1234));// pass trackingNo
+			 for(int i=0;i<=regcount;i++){
+				 ApptransRegRel atr =  createApptransRegRel(app,regItemsDao.findByTrackingNo(new Integer(appmailouts.get(i).getTrackingno())));// pass trackingNo
 				 atrlist.add(atr);
 				 i++;
 			 }
-			 mailout=mailouts.get(0); mailout.setStatus('Y');//update status of that particular record
 			 Ledger led=createLedger(app,1234);//pass companyUid
+			 
+			 mailout=mailouts.get(0); mailout.setStatus('Y');//update status of that particular record
+			
 			 appTransactionsDao.save(app);
 			 appTransAssociationDao.save(ata);
 			 apptransRegRelDao.save(atrlist);

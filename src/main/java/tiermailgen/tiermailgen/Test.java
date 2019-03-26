@@ -30,6 +30,7 @@ public class Test {
 	 * @return 
 	 * @return 
 	 */
+	public static String CreateModifiedBy="12345";
 	public static Ledger createLedger(AppTransactions app,int companyUid) {
 		Ledger led= new Ledger();
         led.setLedgerActionTypeUid(2);
@@ -37,14 +38,14 @@ public class Test {
         led.setAppTransactions(app);
         led.setAmount(new BigDecimal(0.00));
         led.setActiveFlag('Y');
-        led.setCreateModifiedBy("47358");
+        led.setCreateModifiedBy(CreateModifiedBy);
         led.setCreateModifiedDate(new Date());
         led.setCreationDate(new Date());
 		return led;
 	}
 	public static ApptransRegRel createApptransRegRel(AppTransactions app,RegistrationItems ri) {
 		
-		RegistrationItemsDaoImpl regItemsDao= new RegistrationItemsDaoImpl();
+		
 		ApptransRegRel atr = new ApptransRegRel();
     
 
@@ -56,8 +57,8 @@ public class Test {
   	        atr.setRegItemAmount(new BigDecimal(0.00));
   	        atr.setCalulatedExpiration(ri.getExpirationDate());
   	        atr.setActionRequestedDate(new Date());
-  	        atr.setActionRequestedBy("47358");
-  	        atr.setCreateModifiedBy("47358");
+  	        atr.setActionRequestedBy(CreateModifiedBy);
+  	        atr.setCreateModifiedBy(CreateModifiedBy);
   	        atr.setCreateModifiedDate(new Date());
   	        atr.setAppTransactions(app);
   	        
@@ -68,7 +69,7 @@ public class Test {
 		 AppTransAssociation ata = new AppTransAssociation();
 	        ata.setApplicationUid(appno);
 	        ata.setAppTransactions(app);
-	        ata.setCreateModifiedBy("47358");
+	        ata.setCreateModifiedBy(CreateModifiedBy);
 	        ata.setCreateModifiedDate(new Date());
 		
 		return ata;
@@ -82,7 +83,7 @@ public class Test {
 	        app.setExternalFlag('N');
 	        app.setRequestDate(new Date());
 	        app.setTransactionIssuanceDate(new Date());
-	        app.setCreateModifiedBy("47358");
+	        app.setCreateModifiedBy(CreateModifiedBy);
 	        app.setPostMarkDate(new Date());
 	        app.setCreateModifiedDate(new Date());
 	        return app;
@@ -109,7 +110,7 @@ public class Test {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		// add calculated exipry date and regitem in mailout table;
+		// add companyuid, calculated exipry date and regitem in mailout table;
 		
 		 TierMailoutsDaoImpl mailoutsDao = new TierMailoutsDaoImpl();
 		 RegistrationItemsDaoImpl regItemsDao= new RegistrationItemsDaoImpl();

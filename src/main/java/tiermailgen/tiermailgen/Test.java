@@ -155,12 +155,10 @@ public class Test {
 				 apptransRegRelDao.save(apptranlist);
 			 }
 			 ledgerDao.save(led);
-			 
-			 for(int i=0;i<appmailouts.size();i++){
-				 mailouts.get(i).setStatus('Y');
-				 mailoutsDao.update(mailout);	
-				 }
-
+			 for(TierMailouts tm:appmailouts ){
+				 tm.setStatus('Y');
+				 mailoutsDao.update(tm);
+			 }
 			
 				++appsprocessing;
 				System.out.println("After update "+appsprocessing);

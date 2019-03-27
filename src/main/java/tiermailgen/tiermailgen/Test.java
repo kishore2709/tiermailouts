@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import tiermailgen.tiermailgen.dao.impl.AppTransAssociationDaoImpl;
 import tiermailgen.tiermailgen.dao.impl.AppTransactionsDaoImpl;
 import tiermailgen.tiermailgen.dao.impl.ApptransRegRelDaoImpl;
@@ -118,6 +121,9 @@ public class Test {
 		 AppTransAssociationDaoImpl appTransAssociationDao = new AppTransAssociationDaoImpl();
 		 LedgerDaoImpl ledgerDao = new LedgerDaoImpl();
 		 TierMailouts mailout = null;
+		 Transaction transaction = null;
+	     Session session = null;
+	     session = HibernateUtil.getSession();
 		 ApptransRegRelDaoImpl apptransRegRelDao = new ApptransRegRelDaoImpl();
 		 
 		 List<TierMailouts> mailouts = mailoutsDao.findByStatus('N');
@@ -145,12 +151,15 @@ public class Test {
 			 Ledger led=createLedger(app,1234);//pass companyUid
 			 
 			 mailout=mailouts.get(0); mailout.setStatus('Y');//update status of that particular record
-			
+			 session = HibernateUtil.getSession();
+	         transaction = session.beginTransaction();
 			 appTransactionsDao.save(app);
 			 appTransAssociationDao.save(ata);
 			 apptransRegRelDao.save(atrlist);
 			 ledgerDao.save(led);
 			 mailoutsDao.save(mailout);
+			 transaction.commit();
+		     session.close();
 		 }
 	}
 

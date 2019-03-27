@@ -91,6 +91,7 @@ public class Test {
 	        app.setCreateModifiedDate(new Date());
 	        return app;
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map getAppCounts(List<TierMailouts> mailouts) {
 		Set uniqueAppNos = new HashSet<String>();
 		 Map uniqueAppCount = new HashMap<String,Integer>();

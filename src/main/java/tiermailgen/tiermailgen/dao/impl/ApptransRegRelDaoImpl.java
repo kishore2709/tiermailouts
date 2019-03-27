@@ -1,5 +1,7 @@
 package tiermailgen.tiermailgen.dao.impl;
 
+import java.io.Serializable;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -7,6 +9,12 @@ import tiermailgen.tiermailgen.HibernateUtil;
 import tiermailgen.tiermailgen.model.ApptransRegRel;
 
 public class ApptransRegRelDaoImpl extends BaseDaoImpl {
+	
+	 public Serializable save(Object obj)
+	  {
+	    return getCurrentSession().save(obj);
+	  }
+	 
 	public void insertAppTranRegRel(ApptransRegRel apptransRegRel ){
 		 
         Session session = null;

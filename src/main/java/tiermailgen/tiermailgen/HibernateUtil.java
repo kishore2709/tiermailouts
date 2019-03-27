@@ -31,8 +31,7 @@ public class HibernateUtil {
     public static void loadSessionFactory(){
  
         Configuration configuration = new Configuration();
-        ///tiermailgen/src/main/java/tiermailgen/tiermailgen/HibernateUtil.java
-        ///tiermailgen/src/main/java/hibernate.cfg.xml
+        
         configuration.configure("../../../hibernate.cfg.xml");
         configuration.addAnnotatedClass(TierMailouts.class);
         configuration.addAnnotatedClass(AppTransactions.class);

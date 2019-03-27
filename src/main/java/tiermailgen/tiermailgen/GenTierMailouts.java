@@ -166,6 +166,7 @@ public class GenTierMailouts {
 			 System.out.println("After update appmailouts "+appmailouts.size());
 			 for(TierMailouts tm:appmailouts ){
 				 tm.setStatus('Y');
+				 tm.setAppCount(regcount);
 			//tm.setApptranno();
 				mailoutsDao.update(tm);
 			 }

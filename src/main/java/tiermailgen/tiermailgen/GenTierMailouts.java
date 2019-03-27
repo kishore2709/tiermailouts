@@ -23,7 +23,7 @@ import tiermailgen.tiermailgen.model.Ledger;
 import tiermailgen.tiermailgen.model.RegistrationItems;
 import tiermailgen.tiermailgen.model.TierMailouts;
 
-public class Test {
+public class GenTierMailouts {
 
 	/**
 	 * @param args

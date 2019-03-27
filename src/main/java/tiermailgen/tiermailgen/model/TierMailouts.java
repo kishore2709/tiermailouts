@@ -25,7 +25,10 @@ public class TierMailouts implements java.io.Serializable {
 	private char status;
 	private Date createModifiedDate;
 	private Integer appCount;
-	
+	private Integer companyuid;
+	private Date expirationDate;
+	private Integer regitemuid;
+
 	public Integer getAppCount() {
 		return appCount;
 	}
@@ -108,6 +111,35 @@ public class TierMailouts implements java.io.Serializable {
 
 	public void setCreateModifiedDate(Date createModifiedDate) {
 		this.createModifiedDate = createModifiedDate;
+	}
+	
+	@Column(name = "company_uid", nullable = false, length = 11)
+	public Integer getCompanyuid() {
+		return companyuid;
+	}
+
+	public void setCompanyuid(Integer companyuid) {
+		this.companyuid = companyuid;
+	}
+
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "Expiration_Date", nullable = false, length = 19)
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	@Column(name = "RegItem_UID", nullable = false, length = 11)
+	public Integer getRegitemuid() {
+		return regitemuid;
+	}
+
+	public void setRegitemuid(Integer regitemuid) {
+		this.regitemuid = regitemuid;
 	}
 
 }

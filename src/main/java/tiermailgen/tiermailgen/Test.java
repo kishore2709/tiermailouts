@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import tiermailgen.tiermailgen.dao.impl.AppTransAssociationDaoImpl;
 import tiermailgen.tiermailgen.dao.impl.AppTransactionsDaoImpl;
@@ -65,7 +64,7 @@ public class Test {
   	        atr.setCreateModifiedDate(new Date());
   	        atr.setAppTransactions(app);
   	        
-		return null;
+		return atr;
 		
 	}
 	public static AppTransAssociation createAppTransAssociation(AppTransactions app,int appno) {
@@ -91,7 +90,6 @@ public class Test {
 	        app.setCreateModifiedDate(new Date());
 	        return app;
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map getAppCounts(List<TierMailouts> mailouts) {
 		Set uniqueAppNos = new HashSet<String>();
 		 Map uniqueAppCount = new HashMap<String,Integer>();
@@ -122,13 +120,10 @@ public class Test {
 		 AppTransAssociationDaoImpl appTransAssociationDao = new AppTransAssociationDaoImpl();
 		 LedgerDaoImpl ledgerDao = new LedgerDaoImpl();
 		 TierMailouts mailout = null;
-		 Transaction transaction = null;
-	     Session session = null;
-	     session = HibernateUtil.getSession();
 		 ApptransRegRelDaoImpl apptransRegRelDao = new ApptransRegRelDaoImpl();
 		 
 		 List<TierMailouts> mailouts = mailoutsDao.findByStatus('N');
-		 mailouts=mailouts.subList(0, 10);// For Testing
+		 mailouts=mailouts.subList(0, 2);// For Testing
 		 System.out.println(">>>>>>> TierMailouts Size "+mailouts.size());
 		 Map uniqueAppCount = getAppCounts(mailouts);
 		// uniqueAppCount.
@@ -141,7 +136,7 @@ public class Test {
 				 appmailouts.add(tms);
 				 }
 			 Integer regcount=(Integer) uniqueAppCount.get(appno);
-			 AppTransactions app =createAppTxns(appmailouts.get(0).getCompanyUid);//pass companyUid
+			 AppTransactions app =createAppTxns(appmailouts.get(0).getCompanyuid());//pass companyUid
 			 AppTransAssociation ata = createAppTransAssociation(app,new Integer(appno));// pass appNo
 			 List<ApptransRegRel> atrlist=new  ArrayList<ApptransRegRel>();
 			 for(int i=0;i<=regcount;i++){
@@ -149,18 +144,34 @@ public class Test {
 				 atrlist.add(atr);
 				 i++;
 			 }
-			 Ledger led=createLedger(app,1234);//pass companyUid
+			 Ledger led=createLedger(app,appmailouts.get(0).getCompanyuid());//pass companyUid
 			 
-			 mailout=mailouts.get(0); mailout.setStatus('Y');//update status of that particular record
-			 session = HibernateUtil.getSession();
-	         transaction = session.beginTransaction();
+			// mailout=mailouts.get(0);
+			// mailout.setStatus('Y');//update status of that particular record
+				 
 			 appTransactionsDao.save(app);
 			 appTransAssociationDao.save(ata);
-			 apptransRegRelDao.save(atrlist);
+			 for(ApptransRegRel apptranlist:atrlist ){
+				 apptransRegRelDao.save(apptranlist);
+			 }
 			 ledgerDao.save(led);
-			 mailoutsDao.save(mailout);
-			 transaction.commit();
-		     session.close();
+			 
+			 System.out.println("before");
+			mailout=mailouts.get(0);
+			System.out.println(mailout.getAppno()+" "+mailout.getStatus()+" "+mailout.getRegitemuid());
+
+			mailout.setStatus('Y');//update status of that particular record
+			System.out.println("After set statusupdate");
+
+			System.out.println(mailout.getAppno()+" "+mailout.getStatus()+" "+mailout.getRegitemuid());
+
+			 mailoutsDao.saveOrUpdate(mailout);
+				System.out.println("After update");
+
+				System.out.println(mailout.getAppno()+" "+mailout.getStatus()+" "+mailout.getRegitemuid());
+
+				
+			 
 		 }
 	}
 

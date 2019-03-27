@@ -35,6 +35,7 @@ public class BaseDaoImpl
   public void update(Object o)
   {
     getCurrentSession().merge(o);
+    getCurrentSession().flush();
   }
   
   public void delete(Object o)

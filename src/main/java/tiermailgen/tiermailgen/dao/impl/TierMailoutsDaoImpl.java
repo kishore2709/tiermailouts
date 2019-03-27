@@ -32,5 +32,9 @@ public class TierMailoutsDaoImpl extends BaseDaoImpl {
 	  {
 	    return getCurrentSession().createCriteria(TierMailouts.class).add(Restrictions.eq("status", status)).list();
 	  }
- 
+	
+	 public void update(TierMailouts tierMailout)
+	  {
+	    super.update(tierMailout);
+	  }
 }

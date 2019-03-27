@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.Session;
-
 import tiermailgen.tiermailgen.dao.impl.AppTransAssociationDaoImpl;
 import tiermailgen.tiermailgen.dao.impl.AppTransactionsDaoImpl;
 import tiermailgen.tiermailgen.dao.impl.ApptransRegRelDaoImpl;
@@ -123,12 +121,14 @@ public class Test {
 		 ApptransRegRelDaoImpl apptransRegRelDao = new ApptransRegRelDaoImpl();
 		 
 		 List<TierMailouts> mailouts = mailoutsDao.findByStatus('N');
-		 mailouts=mailouts.subList(0, 2);// For Testing
+	//	 mailouts=mailouts.subList(0, 2);// For Testing
 		 System.out.println(">>>>>>> TierMailouts Size "+mailouts.size());
 		 Map uniqueAppCount = getAppCounts(mailouts);
 		// uniqueAppCount.
 		 Iterator<String> it =  uniqueAppCount.keySet().iterator();
+		 int appsprocessing =1;
 		 while(it.hasNext()){
+			
 			 List<TierMailouts> appmailouts =new  ArrayList<TierMailouts>(); 
 			 String appno= it.next();
 			 for(TierMailouts tms:mailouts){
@@ -139,10 +139,10 @@ public class Test {
 			 AppTransactions app =createAppTxns(appmailouts.get(0).getCompanyuid());//pass companyUid
 			 AppTransAssociation ata = createAppTransAssociation(app,new Integer(appno));// pass appNo
 			 List<ApptransRegRel> atrlist=new  ArrayList<ApptransRegRel>();
-			 for(int i=0;i<=regcount;i++){
+			 
+			 for(int i=0;i<regcount;i++){
 				 ApptransRegRel atr =  createApptransRegRel(app,regItemsDao.findByTrackingNo(new Integer(appmailouts.get(i).getTrackingno())));// pass trackingNo
 				 atrlist.add(atr);
-				 i++;
 			 }
 			 Ledger led=createLedger(app,appmailouts.get(0).getCompanyuid());//pass companyUid
 			 
@@ -156,21 +156,15 @@ public class Test {
 			 }
 			 ledgerDao.save(led);
 			 
-			 System.out.println("before");
-			mailout=mailouts.get(0);
-			System.out.println(mailout.getAppno()+" "+mailout.getStatus()+" "+mailout.getRegitemuid());
+			 for(int i=0;i<appmailouts.size();i++){
+				 mailouts.get(i).setStatus('Y');
+				 mailoutsDao.update(mailout);	
+				 }
 
-			mailout.setStatus('Y');//update status of that particular record
-			System.out.println("After set statusupdate");
-
-			System.out.println(mailout.getAppno()+" "+mailout.getStatus()+" "+mailout.getRegitemuid());
-
-			 mailoutsDao.saveOrUpdate(mailout);
-				System.out.println("After update");
-
-				System.out.println(mailout.getAppno()+" "+mailout.getStatus()+" "+mailout.getRegitemuid());
-
-				
+			
+				++appsprocessing;
+				System.out.println("After update "+appsprocessing);
+				if(appsprocessing>2)break; //testing
 			 
 		 }
 	}

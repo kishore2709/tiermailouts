@@ -132,8 +132,11 @@ public class GenTierMailouts {
 			 List<TierMailouts> appmailouts =new  ArrayList<TierMailouts>(); 
 			 String appno= it.next();
 			 for(TierMailouts tms:mailouts){
-				 if(tms.getAppno().equals(it));
+				 //System.out.println("tms.getAppno()"+tms.getAppno()+" ");
+				 if(tms.getAppno().equals(appno)){
+				//	 System.out.println("tms.getAppno().equals(it) ");
 				 appmailouts.add(tms);
+				 }
 				 }
 			 Integer regcount=(Integer) uniqueAppCount.get(appno);
 			 AppTransactions app =createAppTxns(appmailouts.get(0).getCompanyuid());//pass companyUid
@@ -141,8 +144,13 @@ public class GenTierMailouts {
 			 List<ApptransRegRel> atrlist=new  ArrayList<ApptransRegRel>();
 			 
 			 for(int i=0;i<regcount;i++){
+				 try{
 				 ApptransRegRel atr =  createApptransRegRel(app,regItemsDao.findByTrackingNo(new Integer(appmailouts.get(i).getTrackingno())));// pass trackingNo
 				 atrlist.add(atr);
+				 }
+				 catch(Exception e){
+					 System.out.println(">>>>>> Tracking No "+appmailouts.get(i).getTrackingno());
+				 }
 			 }
 			 Ledger led=createLedger(app,appmailouts.get(0).getCompanyuid());//pass companyUid
 			 
@@ -155,14 +163,16 @@ public class GenTierMailouts {
 				 apptransRegRelDao.save(apptranlist);
 			 }
 			 ledgerDao.save(led);
+			 System.out.println("After update appmailouts "+appmailouts.size());
 			 for(TierMailouts tm:appmailouts ){
 				 tm.setStatus('Y');
-				 mailoutsDao.update(tm);
+			//tm.setApptranno();
+				mailoutsDao.update(tm);
 			 }
 			
 				++appsprocessing;
 				System.out.println("After update "+appsprocessing);
-				if(appsprocessing>2)break; //testing
+				//if(appsprocessing>30)break; //testing
 			 
 		 }
 	}

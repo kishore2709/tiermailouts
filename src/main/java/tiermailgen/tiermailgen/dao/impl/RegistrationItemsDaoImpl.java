@@ -11,7 +11,10 @@ public class RegistrationItemsDaoImpl extends BaseDaoImpl {
 	 public RegistrationItems findByTrackingNo(int trackingNo)
 	  {
 	    return (RegistrationItems)getCurrentSession().createCriteria(RegistrationItems.class)
-	    		.add(Restrictions.eq("trackingNo", trackingNo)).uniqueResult();
+	    		.add(Restrictions.eq("trackingNo", trackingNo))
+	    		.add(Restrictions.isNotNull("applicationUid"))
+	    		.add(Restrictions.isNotNull("companyUid"))
+	    		.uniqueResult();
 	  }
 	 
 	 @SuppressWarnings("unchecked")

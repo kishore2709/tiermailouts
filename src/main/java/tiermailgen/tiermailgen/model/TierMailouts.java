@@ -28,6 +28,15 @@ public class TierMailouts implements java.io.Serializable {
 	private Integer companyuid;
 	private Date expirationDate;
 	private Integer regitemuid;
+	private Integer apptranno;
+	
+	public Integer getApptranno() {
+		return apptranno;
+	}
+
+	public void setApptranno(Integer apptranno) {
+		this.apptranno = apptranno;
+	}
 
 	public Integer getAppCount() {
 		return appCount;
@@ -67,7 +76,7 @@ public class TierMailouts implements java.io.Serializable {
 		this.uid = uid;
 	}
 
-	@Column(name = "appno", nullable = false, length = 45)
+	@Column(name = "appno", nullable = true, length = 45)
 	public String getAppno() {
 		return this.appno;
 	}
@@ -85,7 +94,7 @@ public class TierMailouts implements java.io.Serializable {
 		this.regno = regno;
 	}
 
-	@Column(name = "trackingno", nullable = false, length = 45)
+	@Column(name = "trackingno", nullable = true, length = 45)
 	public String getTrackingno() {
 		return this.trackingno;
 	}
@@ -104,7 +113,7 @@ public class TierMailouts implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "Create_Modified_Date", nullable = false, length = 19)
+	@Column(name = "Create_Modified_Date", nullable = true, length = 19)
 	public Date getCreateModifiedDate() {
 		return this.createModifiedDate;
 	}
@@ -113,7 +122,7 @@ public class TierMailouts implements java.io.Serializable {
 		this.createModifiedDate = createModifiedDate;
 	}
 	
-	@Column(name = "company_uid", nullable = false, length = 11)
+	@Column(name = "company_uid", nullable = true, length = 11)
 	public Integer getCompanyuid() {
 		return companyuid;
 	}
@@ -124,7 +133,7 @@ public class TierMailouts implements java.io.Serializable {
 
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "Expiration_Date", nullable = false, length = 19)
+	@Column(name = "Expiration_Date", nullable = true, length = 19)
 	public Date getExpirationDate() {
 		return expirationDate;
 	}
@@ -133,7 +142,7 @@ public class TierMailouts implements java.io.Serializable {
 		this.expirationDate = expirationDate;
 	}
 
-	@Column(name = "RegItem_UID", nullable = false, length = 11)
+	@Column(name = "RegItem_UID", nullable = true, length = 11)
 	public Integer getRegitemuid() {
 		return regitemuid;
 	}

@@ -107,7 +107,12 @@ public class GenTierMailouts {
 		 }	
 		 return uniqueAppCount;
 	}
-	
+	public static void main2(String[] args) {
+		RegistrationItemsDaoImpl regItemsDao= new RegistrationItemsDaoImpl();
+	//	System.out.println(regItemsDao.findByTrackingNo(20121072).getRegItemUid());// pass trackingNo
+		System.out.println(regItemsDao.findByTrackingNo(20121072).getRegItemUid());// pass trackingNo
+	//	System.out.println(regItemsDao.findByRegItemId(60280).getTrackingNo());// pass trackingNo
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// add companyuid, calculated exipry date and regitem in mailout table;
@@ -119,8 +124,8 @@ public class GenTierMailouts {
 		 LedgerDaoImpl ledgerDao = new LedgerDaoImpl();
 		 TierMailouts mailout = null;
 		 ApptransRegRelDaoImpl apptransRegRelDao = new ApptransRegRelDaoImpl();
-		 
-		 List<TierMailouts> mailouts = mailoutsDao.findByStatus('N');
+	//	 List<TierMailouts> mailouts = mailoutsDao.findByTrackingno("20121072");
+	 List<TierMailouts> mailouts = mailoutsDao.findByStatus('N');
 	//	 mailouts=mailouts.subList(0, 2);// For Testing
 		 System.out.println(">>>>>>> TierMailouts Size "+mailouts.size());
 		 Map uniqueAppCount = getAppCounts(mailouts);
@@ -145,11 +150,14 @@ public class GenTierMailouts {
 			 
 			 for(int i=0;i<regcount;i++){
 				 try{
-				 ApptransRegRel atr =  createApptransRegRel(app,regItemsDao.findByTrackingNo(new Integer(appmailouts.get(i).getTrackingno())));// pass trackingNo
+				 ApptransRegRel atr =  createApptransRegRel(app,regItemsDao.findByTrackingNo(new Integer(appmailouts.get(i).getTrackingno().trim())));// pass trackingNo
 				 atrlist.add(atr);
 				 }
 				 catch(Exception e){
 					 System.out.println(">>>>>> Tracking No "+appmailouts.get(i).getTrackingno());
+					 System.out.println(e.getMessage());
+					 System.out.println(e.getCause());
+					 System.exit(0);
 				 }
 			 }
 			 Ledger led=createLedger(app,appmailouts.get(0).getCompanyuid());//pass companyUid
@@ -168,7 +176,7 @@ public class GenTierMailouts {
 				 tm.setStatus('Y');
 				 tm.setAppCount(regcount);
 			//tm.setApptranno();
-				mailoutsDao.update(tm);
+				//mailoutsDao.update(tm);
 			 }
 			
 				++appsprocessing;

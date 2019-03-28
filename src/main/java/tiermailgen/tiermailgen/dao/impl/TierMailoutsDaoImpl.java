@@ -27,7 +27,10 @@ public class TierMailoutsDaoImpl extends BaseDaoImpl {
         }
         return mailout;
     }
-	
+	public List<TierMailouts> findByTrackingno(String trackingno)
+	  {
+	    return getCurrentSession().createCriteria(TierMailouts.class).add(Restrictions.eq("trackingno", trackingno)).list();
+	  }
 	public List<TierMailouts> findByStatus(Character status)
 	  {
 	    return getCurrentSession().createCriteria(TierMailouts.class).add(Restrictions.eq("status", status)).list();
